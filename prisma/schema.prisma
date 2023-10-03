@@ -1,0 +1,120 @@
+// PharseFlow
+// https://phraseflow.com
+// PhraseFlow is a tool to help you learn languages and improve your reading and listening skills.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id            Int             @id @default(autoincrement())
+  email         String          @unique
+  name          String?
+  password      String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  lessonHistory lessonHistory[]
+  userLessons   userLessons[]
+}
+
+model lesson {
+  id              Int               @id @default(autoincrement())
+  title           String
+  content         String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  lessonQuestions lessonQuestions[]
+  lessonProgress  lessonProgress[]
+  lessonHistory   lessonHistory[]
+  userLessons     userLessons[]
+}
+
+model lessonProgress {
+  id        Int      @id @default(autoincrement())
+  lessonId  Int
+  userId    Int
+  progress  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lesson    lesson   @relation(fields: [lessonId], references: [id])
+}
+
+model lessonHistory {
+  id        Int      @id @default(autoincrement())
+  lessonId  Int
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lesson    lesson   @relation(fields: [lessonId], references: [id])
+  user      user     @relation(fields: [userId], references: [id])
+
+  @@unique([lessonId, userId])
+}
+
+model userLessons {
+  id        Int      @id @default(autoincrement())
+  lessonId  Int
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lesson    lesson   @relation(fields: [lessonId], references: [id])
+  user      user     @relation(fields: [userId], references: [id])
+
+  @@unique([lessonId, userId])
+}
+
+model lessonQuestions {
+  id         Int      @id @default(autoincrement())
+  lessonId   Int      @map("lesson_id")
+  questionId String   @map("question_id")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  question   question @relation(fields: [questionId], references: [id])
+  lesson     lesson   @relation(fields: [lessonId], references: [id])
+
+  @@unique([lessonId, questionId])
+}
+
+model question {
+  id              String            @id @default(cuid())
+  question        String
+  answer          String
+  type            String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  lessonQuestions lessonQuestions[]
+}
+
+model userLessonProgress {
+  id        Int      @id @default(autoincrement())
+  lessonId  Int
+  userId    Int
+  progress  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model userLessonHistory {
+  id             Int              @id @default(autoincrement())
+  lessonId       Int
+  userId         Int
+  lessonStatusId Int
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  lessonStatus   userLessonStatus @relation(fields: [lessonStatusId], references: [id])
+
+  @@unique([lessonId, userId])
+}
+
+model userLessonStatus {
+  id                Int                 @id @default(autoincrement())
+  status            String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  userLessonHistory userLessonHistory[]
+}
