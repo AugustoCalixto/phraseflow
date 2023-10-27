@@ -38,6 +38,11 @@ export class LessonsController {
     return this.lessonsService.findOne(+id);
   }
 
+  @Get('user/:userId')
+  findAllUserLessons(@Param('userId') userId: string) {
+    return this.lessonsService.findAllUserLessons(+userId);
+  }
+
   @Get('progress/:userId/:lessonId')
   getUserLessonProgress(
     @Param('userId') userId: string,

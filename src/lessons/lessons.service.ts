@@ -38,6 +38,19 @@ export class LessonsService extends PrismaService {
     return `This action returns all lessons`;
   }
 
+  async findAllUserLessons(userId: number) {
+    const lessons = await this.lesson.findMany({
+      include: {
+        lessonQuestions: {
+          include: {
+            question: true,
+          },
+        },
+      },
+    });
+    return lessons;
+  }
+
   async findOne(id: number) {
     const lesson = await this.lesson.findUnique({
       where: { id },
