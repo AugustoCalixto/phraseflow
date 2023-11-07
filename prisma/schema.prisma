@@ -16,6 +16,9 @@ model user {
   email         String          @unique
   name          String?
   password      String
+  country       String?
+  sex           String?
+  birthDate     DateTime?
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   lessonHistory lessonHistory[]

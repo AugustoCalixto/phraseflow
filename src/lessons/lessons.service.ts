@@ -34,8 +34,17 @@ export class LessonsService extends PrismaService {
     return newLesson;
   }
 
-  findAll() {
-    return `This action returns all lessons`;
+  async findAll() {
+    const lessons = await this.lesson.findMany({
+      include: {
+        lessonQuestions: {
+          include: {
+            question: true,
+          },
+        },
+      },
+    });
+    return lessons;
   }
 
   async findAllUserLessons(userId: number) {

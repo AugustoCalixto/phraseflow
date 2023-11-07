@@ -43,8 +43,18 @@ export class UsersService extends PrismaService {
     return `This action returns a #${id} user`;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    try {
+      const updatedUser = await this.user.update({
+        where: {
+          id,
+        },
+        data: updateUserDto,
+      });
+      return updatedUser;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   remove(id: number) {
