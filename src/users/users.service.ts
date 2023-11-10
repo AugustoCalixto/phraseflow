@@ -69,6 +69,25 @@ export class UsersService extends PrismaService {
     }
   }
 
+  async login(email: string, password: string) {
+    try {
+      const user = await this.user.findUnique({
+        where: {
+          email,
+        },
+      });
+
+      if (!user) throw new NotFoundException('User not found');
+
+      if (user.password !== password)
+        throw new NotFoundException('Invalid credentials');
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   remove(id: number) {
     return `This action removes a #${id} user`;
   }

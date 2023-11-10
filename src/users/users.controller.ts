@@ -48,6 +48,11 @@ export class UsersController {
     return this.usersService.update(+id, updateUserDto);
   }
 
+  @Post('login')
+  login(@Body('email') email: string, @Body('password') password: string) {
+    return this.usersService.login(email, password);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
