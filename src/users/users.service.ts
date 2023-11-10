@@ -13,12 +13,11 @@ export class UsersService extends PrismaService {
     return newUser;
   }
 
-  async subscribeToLesson(userId: number, lessonId: number, progress: number) {
-    const userLessonProgress = await this.userLessonProgress.create({
+  async subscribeToLesson(userId: number, lessonId: number) {
+    const userLessonProgress = await this.userLessons.create({
       data: {
         userId,
         lessonId,
-        progress,
       },
     });
     return userLessonProgress;

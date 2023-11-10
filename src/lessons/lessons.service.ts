@@ -50,6 +50,13 @@ export class LessonsService extends PrismaService {
 
   async findAllUserLessons(userId: number) {
     const lessons = await this.lesson.findMany({
+      where: {
+        userLessons: {
+          some: {
+            userId,
+          },
+        },
+      },
       include: {
         lessonQuestions: {
           include: {

@@ -24,9 +24,8 @@ export class UsersController {
   subscribeToLesson(
     @Body('userId') userId: number,
     @Body('lessonId') lessonId: number,
-    @Body('progress') progress: number,
   ) {
-    return this.usersService.subscribeToLesson(userId, lessonId, progress);
+    return this.usersService.subscribeToLesson(userId, lessonId);
   }
 
   @Get('history/:userId')
