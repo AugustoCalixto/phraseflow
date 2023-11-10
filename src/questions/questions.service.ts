@@ -31,8 +31,12 @@ export class QuestionsService extends PrismaService {
     return `This action returns a #${id} question`;
   }
 
-  update(id: number, updateQuestionDto: UpdateQuestionDto) {
-    return `This action updates a #${id} question`;
+  async update(id: string, updateQuestionDto: UpdateQuestionDto) {
+    const updatedQuestion = await this.question.update({
+      where: { id },
+      data: updateQuestionDto,
+    });
+    return updatedQuestion;
   }
 
   remove(id: number) {

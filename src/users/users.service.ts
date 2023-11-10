@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class UsersService extends PrismaService {
@@ -39,8 +40,20 @@ export class UsersService extends PrismaService {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    try {
+      const user = await this.user.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (!user) throw new NotFoundException('User not found');
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

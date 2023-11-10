@@ -7,9 +7,10 @@ import { QuestionsModule } from './questions/questions.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
 import { InteractionsModule } from './interactions/interactions.module';
+import { LanguagesModule } from './languages/languages.module';
 
 @Module({
-  imports: [UsersModule, LessonsModule, QuestionsModule, PrismaModule, InteractionsModule],
+  imports: [UsersModule, LessonsModule, QuestionsModule, PrismaModule, InteractionsModule, LanguagesModule],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })

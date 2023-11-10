@@ -26,6 +26,7 @@ export class LessonsService extends PrismaService {
       data: {
         title: createLessonDto.title,
         content: createLessonDto.content,
+        language_id: createLessonDto.language_id,
         lessonQuestions: {
           create: questions,
         },

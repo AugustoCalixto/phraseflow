@@ -44,7 +44,7 @@ export class QuestionsController {
     @Param('id') id: string,
     @Body() updateQuestionDto: UpdateQuestionDto,
   ) {
-    return this.questionsService.update(+id, updateQuestionDto);
+    return this.questionsService.update(id, updateQuestionDto);
   }
 
   @Delete(':id')

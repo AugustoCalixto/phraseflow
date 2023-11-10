@@ -29,12 +29,20 @@ model lesson {
   id              Int               @id @default(autoincrement())
   title           String
   content         String
+  language_id     Int
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   lessonQuestions lessonQuestions[]
   lessonProgress  lessonProgress[]
   lessonHistory   lessonHistory[]
   userLessons     userLessons[]
+}
+
+model language {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model lessonProgress {
